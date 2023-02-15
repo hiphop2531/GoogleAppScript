@@ -1,0 +1,22 @@
+function myFunction() { 
+  var code = 'ป2254'
+  var sheets = ['C','B','P','M','S'] 
+  for(var i in sheets) {    
+  var ss =SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheets[i])
+  var data = ss.getDataRange().getDisplayValues().filter(r=>{
+    return r[0] ==code
+  })
+Logger.log(data)
+  }
+}
+function getCode(code) {
+
+  var sheets = ['C','B','P','M','S']
+  for(var i in sheets) {
+  var ws = SpreadsheetApp.openById('1gatyvnzzmhchq9EXdJvTCEAAeBlbA5Q_7MuIZ463tRA').getSheetByName(sheets[i])
+  var data = ws.getDataRange().getDisplayValues().filter(row =>{
+    return row[0] ==code
+  })
+  if(data.length >0) break; 
+  }
+}
