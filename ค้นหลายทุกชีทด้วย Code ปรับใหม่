@@ -14,7 +14,7 @@ function getCode(code) {
 
   var sheets = ['C','B','P','M','S']
   for(var i in sheets) {
-  var ws = SpreadsheetApp.openById('1gatyvnzzmhchq9EXdJvTCEAAeBlbA5Q_7MuIZ463tRA').getSheetByName(sheets[i])
+  var ws = SpreadsheetApp.openById('1AhHIH5O-Yovtd870Wc-iKhFP3jsFFwbwpJMCdwSVEEg').getSheetByName(sheets[i])
   var data = ws.getDataRange().getDisplayValues().filter(row =>{
     return row[0] ==code
   })
