@@ -1,0 +1,26 @@
+function genMS(e)
+{
+  var form = FormApp.openById('10r3nZ2sVzeTGHdtzUQGuxyhehdr9xnfoyJvKhlK76Cg'); //Replace your form id 
+  var itemResponses = e.response.getItemResponses();
+  var text_data = 'มีการให้คะแนนความพึงพอใจ';
+  for (var j = 0; j < itemResponses.length; j++) {
+    var itemResponse = itemResponses[j];
+    text_data += '\n'+itemResponse.getItem().getTitle()+': '+itemResponse.getResponse()
+  }
+  sendMS(text_data);
+}
+function sendMS(text)
+{
+  var formData = {
+    'message': text,
+  };
+  var token = 'WYQsOWRGFBqgcAMvYis3dTO78VIBmVtUSspRufde5JR'; //Replace your LINE token id here
+  
+  var options = {
+    'method' : 'post',
+    'headers' : {'Authorization': "Bearer "+token},
+    'contentType': 'application/x-www-form-urlencoded',
+    'payload' : formData
+  };
+  UrlFetchApp.fetch('https://notify-api.line.me/api/notify', options);
+}
