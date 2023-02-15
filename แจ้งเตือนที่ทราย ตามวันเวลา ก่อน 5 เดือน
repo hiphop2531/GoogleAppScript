@@ -1,0 +1,40 @@
+function myFunction() {
+  var token = 'j5rtLpz4RRd4VawxQVimq2luiHNdFFy7vRZOMNT7RPu' //กลุ่มแจ้งเตือนต่ออายุท่าทราย
+  //var token = '2U8GnKgMqMgFZ7F6EUfzJZYciOtOxGMhqRC2vyfWjNK' //กลุ่มทดสอบระบบแจ้งเตือน
+  var ss = SpreadsheetApp.openById('179ut-A1KG1sAfeYmbE1kcM3p9eubyWMGSak0cYVgQz8')
+  var sh = ss.getSheetByName('datafull')
+  var row = sh.getLastRow();
+
+  var today = Utilities.formatDate(new Date(), "GMT+7", "dd/MM/yyyy")
+  var time = Utilities.formatDate(new Date(), "GMT+7", "HH:mm")
+//Logger .log(time)
+  var timer1 = "08:00"
+  var timer2 = "16:30"
+  for (i = 2; i <= row; i++) {
+var date = Utilities.formatDate(sh.getRange(i, 1).getValue(), "GMT+7", "dd/MM/yyyy")
+      if (today == date && time == timer1 || today == date && time == timer2){
+      var msg1 = sh.getRange(i, 2).getValue() + '\n'
+      var msg2 = sh.getRange(i, 3).getValue() + '\n'
+      var msg3 = sh.getRange(i, 4).getValue() + '\n'
+      var msg4 = sh.getRange(i, 5).getValue() + '\n'
+      var msg5 = sh.getRange(i, 6).getValue() + '\n'
+      var msg6 = sh.getRange(i, 7).getValue() + '\n'
+      var msg7 = sh.getRange(i, 8).getValue() + '\n'
+      var msg8 = sh.getRange(i, 9).getValue() + '\n'
+      var msg9 = sh.getRange(i, 10).getValue() + '\n'
+      var msg10 = sh.getRange(i, 11).getValue() + '\n'
+      var message = ' ลำดับที่ : ' + msg1 + ' ชื่อผู้ได้รับอนุญาต : ' + msg2 + ' ใบอนุญาตเลขที่ : ' + msg3 + ' วันที่ได้รับอนุญาต : ' + msg4 + ' วันสิ้นสุดใบอนุญาต : ' + msg5 + ' บริเวณที่ตั้ง : ' + msg6 + ' เนื้อที่/ไร่ : ' + msg7 + ' ปฎิบัติตามเงื่อนไข หรือไม่ อย่างไร : ' + msg8 + ' หมายเหตุ : ' + msg9 + ' วันที่แจ้งเตือน ก่อน 5 เดือน : ' + msg10
+      sendLineNotify(message, token)
+    }
+  }
+}
+function sendLineNotify(message, token) {
+  var options = {
+    "method": "post",
+    "payload": {
+      "message": message,
+    },
+    "headers": { "Authorization": "Bearer " + token }
+  };
+  UrlFetchApp.fetch("https://notify-api.line.me/api/notify", options);
+}
