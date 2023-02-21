@@ -1,0 +1,10 @@
+function findData(columnName, valueToFind) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var values = sheet.getDataRange().getValues();
+  var headers = values.shift(); 
+  var columnIndex = headers.indexOf(columnName); 
+  var filteredValues = values.filter(function(row) {
+    return row[columnIndex] === valueToFind;
+  });
+  return filteredValues;
+}
