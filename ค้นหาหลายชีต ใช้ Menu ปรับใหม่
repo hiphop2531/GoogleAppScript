@@ -1,19 +1,10 @@
-function doPost(e) {    
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sheet = ss.getSheetByName("Menu");
-  
+function doPost(e) {  
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();  
     var data = JSON.parse(e.postData.contents)
     var userMsg = data.originalDetectIntentRequest.payload.data.message.text;
-    var values = sheet.getDataRange().getValues();
+    var Values = sheet.getDataRange().getValues();
 
-    var info = values.find(function seek(row) {
-        return row[0] == userMsg;
-    });
-
-    sheet = ss.getSheetByName(info[1]);
-    values = sheet.getDataRange().getDisplayValues()
-
-    info = values.find(function seek(row) {
+    var info = Values.find(function seek(row) {
         return row[0] == userMsg;
     });
 
