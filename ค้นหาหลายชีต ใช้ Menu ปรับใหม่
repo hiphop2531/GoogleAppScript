@@ -116,5 +116,3 @@ var Data10 = info[11] //ราคาประเมินทั้งแปล�
     var replyJSON = ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
     return replyJSON;
          }
-     
- 
