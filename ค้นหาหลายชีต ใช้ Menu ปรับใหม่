@@ -1,0 +1,129 @@
+function doPost(e) {    
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName("Menu");
+  
+    var data = JSON.parse(e.postData.contents)
+    var userMsg = data.originalDetectIntentRequest.payload.data.message.text;
+    var values = sheet.getDataRange().getValues();
+
+    var info = values.find(function seek(row) {
+        return row[0] == userMsg;
+    });
+
+    sheet = ss.getSheetByName(info[1]);
+    values = sheet.getDataRange().getDisplayValues()
+
+    info = values.find(function seek(row) {
+        return row[0] == userMsg;
+    });
+
+    Logger.log(info);
+
+var Data0 = info[1]; //โฉนด
+var Data1 = info[4]; //หน้าสำรวจ
+var Data2 = info[8]; //เลขที่ดิน
+var Data3 = info[5]; //ระวาง
+var Data4 = info[6]; //แผ่นที่
+var Data5 = info[7]; //มาตราส่วน
+var Data6 = info[3]; //ตำบล
+var Data7 = info[2]; //อำเภอ
+var Data8 = info[9]; //เนื้อที่
+var Data9 = info[10]; //ราคาประเมิน
+var Data10 = info[11] //ราคาประเมินทั้งแปลง
+
+            var result = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {  
+  "type": "flex",
+  "altText": "this is a flex message",
+  "contents": 
+{
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "ราคาประเมินที่ดิน",
+        "size": "xl",
+        "weight": "bold",
+        "align": "center",
+        "color": "#0000FF"
+      },
+      {
+        "type": "text",
+        "weight": "bold",
+        "text": "สำนักงานที่ดินจังหวัดบึงกาฬ",
+        "align": "center",
+        "color": "#FF0000"
+      },
+      {
+        "type": "text",
+        "weight": "bold",
+        "text": "รอบบัญชี พ.ศ.2566-2569",
+        "align": "center",
+        "color": "#006600"
+      },
+      {
+        "type": "text",
+        "text": "โฉนดเลขที่ : "+Data0,     
+      },
+      {
+        "type": "text",
+        "text": "หน้าสำรวจ : "+Data1,
+      },
+      {
+        "type": "text",
+        "text": "เลขที่ดิน : "+Data2,
+      },
+      {
+        "type": "text",
+        "text": "ระวาง : "+Data3+"   แผ่นที่ : "+Data4,
+      },
+      {
+        "type": "text",
+        "text": "มาตราส่วน : "+Data5,
+      },
+      {
+        "type": "text",
+        "text": "ตำบล : "+Data6,
+      },
+      {
+        "type": "text",
+        "text": "อำเภอ : "+Data7,
+      },
+      {
+        "type": "text",
+        "text": "จังหวัด : บึงกาฬ",
+      },
+      {
+        "type": "text",
+        "text": "เนื้อที่ : "+Data8+ " ไร่ "
+      },
+      {
+        "type": "text",
+        "text": "ราคาประเมิน ตรว.ละ : "+Data9+ " บาท "
+       },
+       {
+        "type": "text",
+        "text": "ราคาประเมินทั้งแปลง : "+Data10+ " บาท "
+       },
+       ]
+            }
+          }
+        }
+      }
+    }
+              ]
+            }
+      
+    var replyJSON = ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+    return replyJSON;
+         }
+     
+ 
