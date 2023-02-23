@@ -1,0 +1,128 @@
+function doPost(e) {
+    var ss = SpreadsheetApp.openById("1Gb7I5u2re-Sz_ZGVTPrq3BowtNfqPTLXqAhvWOQuQJ8");
+    var dialogflowDATA = JSON.parse(e.postData.contents);
+    var message =  dialogflowDATA.queryResult.queryText;
+    var userCommand = message.split(",");
+  
+    if(userCommand[1] == "เมืองลพบุรี"){
+      if(userCommand[0]<=20000){
+      var sheet = ss.getSheetByName("M20000");
+      }else if(userCommand[0]<=40000){
+      var sheet = ss.getSheetByName("M40000");
+      }else if(userCommand[0]<=60000){
+      var sheet = ss.getSheetByName("M60000");
+      }else if(userCommand[0]<=80000){
+      var sheet = ss.getSheetByName("M80000");
+      }else if(userCommand[0]<=100000){
+      var sheet = ss.getSheetByName("M100000");
+      }
+    }else if(userCommand[1] == "ท่าวุ้ง"){
+      if(userCommand[0]<=20000){
+      var sheet = ss.getSheetByName("TW20000");
+      }else if(userCommand[0]<=40000){
+      var sheet = ss.getSheetByName("TW40000");
+      }
+    }
+    var tableArray = sheet.getRange(2, 1, sheet.getLastRow(), sheet.getLastColumn()).getValues();
+    var monthName = '';
+    
+    for (var i = 0; i < tableArray.length; i++) {
+        if (tableArray[i][0] == userCommand[0]) {
+            i = i + 2;
+          var title = sheet.getRange(i,1).getValue();
+          var survey = sheet.getRange(i,2).getValue();
+          var UTM1 = sheet.getRange(i,3).getValue();
+          var UTM2 = sheet.getRange(i,4).getValue();
+          var page = sheet.getRange(i,5).getValue();
+          var scale = sheet.getRange(i,6).getValue();
+          var landno = sheet.getRange(i,7).getValue();
+          var area = sheet.getRange(i,8).getValue();
+          var tambon = sheet.getRange(i,9).getValue();
+          var aumpher = sheet.getRange(i,10).getValue();
+          var province = sheet.getRange(i,11).getValue();
+          var price = sheet.getRange(i,12).getValue();
+          
+          var monthName =  {
+    "fulfillmentMessages": [{
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {  
+  "type": "flex",
+  "altText": "ราคาประเมินที่ดินของท่าน",
+  "contents": 
+{
+  "type": "bubble",
+  "size": "giga",
+  "styles": {
+    "footer": {
+      "separator": true
+    }
+  },
+  "body": 
+  {
+    "type": "box",
+    "backgroundColor": "#e4f7dfaa",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "ราคาประเมินที่ดิน",
+        "align": "center",
+        "weight": "bold",
+        "color": "#1DB446",
+        "size": "xxl"
+      },
+      {
+        "type": "text",
+        "text": tambon+" "+aumpher+" "+province,
+        "align": "center",
+        "size": "md",
+        "color": "#aaaaaa",
+        "wrap": true
+      },
+      {
+        "type": "separator",
+        "margin": "xxl"
+      },
+      {
+        "type": "text",
+        "text": "โฉนดเลขที่ : "+title,
+        "weight": "bold",
+        "size": "lg",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "เลขหน้าสำรวจ : "+survey+" ("+landno+")",
+        "weight": "bold",
+        "size": "lg",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "ระวาง : "+UTM1+UTM2+"-"+page+" ("+scale+")",
+        "weight": "bold",
+        "size": "lg",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "เนื้อที่ : "+area+" ไร่",
+        "weight": "bold",
+        "size": "lg",
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "ราคาประเมิน (บาท ต่อ ตร.วา) : "+price+" บาท",
+        "weight": "bold",
+        "size": "lg",
+        "margin": "md"
+      } ]  }  }  } } } ] }
+            //Logger.log(monthName)
+             var replyJSON = ContentService.createTextOutput(JSON.stringify(monthName)).setMimeType(ContentService.MimeType.JSON);
+             return replyJSON;
+        }
+    }
+}
