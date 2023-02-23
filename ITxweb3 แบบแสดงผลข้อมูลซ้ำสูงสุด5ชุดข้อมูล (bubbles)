@@ -1,0 +1,233 @@
+var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Cd8LtRQwz6M0ArLDtWCY8Zy2KxlNK7vGrzZ0UzkCwHc/edit"); //url sheet
+var sheet = ss.getSheetByName("test"); //ชื่อแผ่นงาน
+function doPost(e) {
+   
+  
+  //ปล.ไม่สามารถค้นหาข้อมูลที่ซ้ำกันใน rowที่ห่างกันไม่เกิน3rowได้ เช่นข้อมูลซ้ำ row2 row3 row6 row7 จะแสดงผลนับไปแค่2row คือ row2และrow6  ส่วน row3และrow7 จะไม่แสดงผล
+  
+  
+  var data = JSON.parse(e.postData.contents)
+  var userMsg = data.originalDetectIntentRequest.payload.data.message.text;
+  var values = sheet.getRange(2, 1, sheet.getLastRow(),sheet.getLastColumn()).getValues(); //2, 1, < 2คือเริ่มค้นหาจาก rowที่2 และ1 คือค้นหาจาก column1 
+  
+  
+  var data1 = ["","","","",""]; //var data 1 จำนวน 5 ชุด
+  var data2 = ["","","","",""]; //var data 1 จำนวน 5 ชุด
+  var data3 = ["","","","",""]; //var data 1 จำนวน 5 ชุด
+  var Count = 0; //count
+  
+for(var i = 0;i<values.length; i++){
+    
+    if(values[i][0] == userMsg || values[i][1] == userMsg || values[i][2] == userMsg){ 
+      //values[i][0] << ถ้าค้นหาจาก column1 / values[i][1] คือการค้นหาจาก column2 ด้วยเช่นกัน หากต้องการค้นหาจาก column เดียว ให้ลบ  || values[i][1] == userMsg || values[i][2] == userMsg ออก
+      i=i+2;
+      
+       Count = Count+1; //เริ่มจำนวน [count] จาก[0] เป็น [1]
+
+     data1[Count] = sheet.getRange(i,1).getValue(); //get value จาก row ที่นับได้ และเรียง data1[1] data1[2] data1[3] data1[4] data1[5]
+     data2[Count] = sheet.getRange(i,2).getValue();
+     data3[Count] = sheet.getRange(i,3).getValue();   
+     
+}
+  }
+  
+  if(Count === 1){
+        var result = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1+"\n"+data2+"\n"+data3
+    }
+        
+   }
+  }
+ ]
+}
+        }
+   else if(Count === 2){
+        var result = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[1]+"\n"+data2[1]+"\n"+data3[1]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[2]+"\n"+data2[2]+"\n"+data3[2]
+    }
+        
+   }
+  }
+ ]
+}
+        }
+   else if(Count === 3){
+        var result = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[1]+"\n"+data2[1]+"\n"+data3[1]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[2]+"\n"+data2[2]+"\n"+data3[2]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[3]+"\n"+data2[3]+"\n"+data3[3]
+    }
+        
+   }
+  }
+ ]
+}
+        }
+     else if(Count === 4){
+        var result = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[1]+"\n"+data2[1]+"\n"+data3[1]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[2]+"\n"+data2[2]+"\n"+data3[2]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[3]+"\n"+data2[3]+"\n"+data3[3]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[4]+"\n"+data2[4]+"\n"+data3[4]
+    }
+        
+   }
+  }
+ ]
+}
+        }
+  else if(Count === 5){
+        var result = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[1]+"\n"+data2[1]+"\n"+data3[1]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[2]+"\n"+data2[2]+"\n"+data3[2]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[3]+"\n"+data2[3]+"\n"+data3[3]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[4]+"\n"+data2[4]+"\n"+data3[4]
+    }
+        
+   }
+  },
+        {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1[5]+"\n"+data2[5]+"\n"+data3[5]
+    }
+        
+   }
+  }
+ ]
+}
+        }
+    var replyJSON = ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+    return replyJSON;
+  
+  
+}
