@@ -1,0 +1,36 @@
+var ss = SpreadsheetApp.openByUrl("https://docs.google.com/spreadsheets/d/1Cd8LtRQwz6M0ArLDtWCY8Zy2KxlNK7vGrzZ0UzkCwHc/edit"); //url sheet
+var sheet = ss.getSheetByName("test"); //ชื่อแผ่นงาน
+function doPost(e) {
+   
+  var data = JSON.parse(e.postData.contents)
+  var userMsg = data.originalDetectIntentRequest.payload.data.message.text;
+  var values = sheet.getRange(2, 1, sheet.getLastRow(),sheet.getLastColumn()).getValues(); //2, 1, < 2คือเริ่มค้นหาจาก rowที่2 และ1 คือค้นหาจาก column1 
+for(var i = 0;i<values.length; i++){
+    
+    if(values[i][0] == userMsg || values[i][1] == userMsg || values[i][2] == userMsg){ 
+      //values[i][0] << ถ้าค้นหาจาก column1 / values[i][1] คือการค้นหาจาก column2 ด้วยเช่นกัน หากต้องการค้นหาจาก column เดียว ให้ลบ  || values[i][1] == userMsg || values[i][2] == userMsg ออก
+      i=i+2;
+   var data1 = sheet.getRange(i,1).getValue(); //column1
+   var data2 = sheet.getRange(i,2).getValue(); //column2
+   var data3 = sheet.getRange(i,3).getValue(); //column3
+      var result = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {
+  "type": "text",
+  "text": data1+"\n"+data2+"\n"+data3
+    }
+        
+   }
+  }
+ ]
+}
+      
+    var replyJSON = ContentService.createTextOutput(JSON.stringify(result)).setMimeType(ContentService.MimeType.JSON);
+    return replyJSON;
+}
+  }
+}
