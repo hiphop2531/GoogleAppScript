@@ -25,9 +25,9 @@ function doPost(e) {
       } 
       }
   if(userCommand[1] == "ม"){
-      if(userCommand[0]<=20000){
+      if(userCommand[0]<=20000){  //กำหนดคำค้นเลข 2 หมื่น ลงมา
       var sheet = ss.getSheetByName("M1");
-      }else if(userCommand[0]<=40000){
+      }else if(userCommand[0]<=150000){  //กำหนดคำค้นเลข 1 แสน 5 ลงมา
       var sheet = ss.getSheetByName("M2");
       }
       }
