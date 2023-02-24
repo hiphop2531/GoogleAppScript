@@ -1,0 +1,148 @@
+function doPost(e) {
+  var ss = SpreadsheetApp.openById("1OvZUdKo1DI6xfSqMSeN1W5GOuNfexbnVWnz-GsPhSYg"); 
+  var dialogflowDATA = JSON.parse(e.postData.contents);
+  var message = dialogflowDATA.queryResult.queryText;
+  var userCommand = message.split(",");
+
+  if(userCommand[1] == "ซ"){
+      if(userCommand[0]){
+      var sheet = ss.getSheetByName("C");
+      }      
+      }
+  else if(userCommand[1] == "บ"){
+      if(userCommand[0]){
+      var sheet = ss.getSheetByName("B");
+      } 
+      }
+  if(userCommand[1] == "ป"){
+      if(userCommand[0]){
+      var sheet = ss.getSheetByName("P");
+      }  
+      }
+  else if(userCommand[1] == "ศ"){
+      if(userCommand[0]){
+      var sheet = ss.getSheetByName("S");
+      } 
+      }
+  if(userCommand[1] == "ม"){
+      if(userCommand[0]<=20000){
+      var sheet = ss.getSheetByName("M1");
+      }else if(userCommand[0]<=40000){
+      var sheet = ss.getSheetByName("M2");
+      }
+      }
+     
+    var tableArray = sheet.getRange(2, 1, sheet.getLastRow(), sheet.getLastColumn()).getValues();
+    var monthName = '';
+    
+    for (var i = 0; i < tableArray.length; i++) {
+        if (tableArray[i][0] == userCommand[0]) {
+            i = i + 2;
+   var Data0 = sheet.getRange(i,1).getValue(); //โฉนด
+   var Data1 = sheet.getRange(i,4).getValue(); //หน้าสำรวจ
+   var Data2 = sheet.getRange(i,8).getValue(); //เลขที่ดิน
+   var Data3 = sheet.getRange(i,5).getValue(); //ระวาง
+   var Data4 = sheet.getRange(i,6).getValue(); //แผนที่
+   var Data5 = sheet.getRange(i,7).getValue(); //มาตราส่วน
+   var Data6 = sheet.getRange(i,3).getValue(); //ตำบล
+   var Data7 = sheet.getRange(i,2).getValue(); //อำเภอ
+   var Data8 = sheet.getRange(i,9).getValue(); //เนื้อที่
+   var Data9 = sheet.getRange(i,10).getValue(); //ราคาประเมิน
+   var Data10 = sheet.getRange(i,11).getValue(); //ราคาประเมินทั้งแปลง
+     
+      var monthName = {
+    "fulfillmentMessages": [
+  {
+    "platform": "line",
+    "type": 4,
+    "payload" : {
+    "line":  {  
+  "type": "flex",
+  "altText": "this is a flex message",
+  "contents": 
+{
+  "type": "bubble",
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "ราคาประเมินที่ดิน",
+        "size": "xl",
+        "weight": "bold",
+        "align": "center",
+        "color": "#0000FF"
+      },
+      {
+        "type": "text",
+        "weight": "bold",
+        "text": "สำนักงานที่ดินจังหวัดบึงกาฬ",
+        "align": "center",
+        "color": "#FF0000"
+      },
+      {
+        "type": "text",
+        "weight": "bold",
+        "text": "รอบบัญชี พ.ศ.2566-2569",
+        "align": "center",
+        "color": "#006600"
+      },
+      {
+        "type": "text",
+        "text": "โฉนดเลขที่ : "+Data0,     
+      },
+      {
+        "type": "text",
+        "text": "หน้าสำรวจ : "+Data1,
+      },
+      {
+        "type": "text",
+        "text": "เลขที่ดิน : "+Data2,
+      },
+      {
+        "type": "text",
+        "text": "ระวาง : "+Data3+"   แผ่นที่ : "+Data4,
+      },
+      {
+        "type": "text",
+        "text": "มาตราส่วน : "+Data5,
+      },
+      {
+        "type": "text",
+        "text": "ตำบล : "+Data6,
+      },
+      {
+        "type": "text",
+        "text": "อำเภอ : "+Data7,
+      },
+      {
+        "type": "text",
+        "text": "จังหวัด : บึงกาฬ",
+      },    {
+        "type": "text",
+        "text": "เนื้อที่ : "+Data8+ " ไร่ "
+      },
+      {
+        "type": "text",
+        "text": "ราคาประเมิน ตรว.ละ : "+Data9+ " บาท "
+       },
+       {
+        "type": "text",
+        "text": "ราคาประเมินทั้งแปลง : "+Data10+ " บาท "
+       },
+       ]
+            }
+          }
+        }
+      }
+    }
+              ]
+            }
+        
+    //Logger.log(monthName)
+             var replyJSON = ContentService.createTextOutput(JSON.stringify(monthName)).setMimeType(ContentService.MimeType.JSON);
+             return replyJSON;
+        }
+      }
+    }
