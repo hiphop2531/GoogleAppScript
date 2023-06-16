@@ -1,0 +1,39 @@
+function myFunction() {
+  //var token = 'SX4UIBxWDIHb9a4kyKFx4yucmG7C7eM3MLZFAqgmC8p'
+  var ss = SpreadsheetApp.openById('12W2Q4F7gtKWAHL-tlbb2rcLELAVLzUEg-16y-JmIezw')
+  var sh = ss.getSheetByName('มิย')
+  var row = sh.getLastRow();
+
+  var today = Utilities.formatDate(new Date(), "GMT+7", "dd/MM/yyyy")
+  
+  var time = Utilities.formatDate(new Date(), "GMT+7", "HH:mm")
+//Logger .log(time)
+  var timer1 = "07:55"
+  var timer2 = "17:55"
+  for (i = 2; i <= row; i++) {
+var date = Utilities.formatDate(sh.getRange(i, 1).getValue(), "GMT+7", "dd/MM/yyyy")
+      if (today == date && time == timer1 || today == date && time == timer2){
+      var msg1 = sh.getRange(i, 2).getValue() + '\n'
+      var msg2 = sh.getRange(i, 3).getValue() + '\n'
+      var msg3 = sh.getRange(i, 4).getValue() + '\n'
+      var msg4 = sh.getRange(i, 5).getValue() + '\n'
+      var msg5 = sh.getRange(i, 6).getValue() + '\n'
+      
+      var message = ' : ' + msg1 + ' เวรกลางคืน : ' + msg2 + ' เวลา : ' + msg3 + ' เวรกลางวัน : ' + msg4 + ' เวลา : ' + msg5 + ' ระบบแจ้งเตือนทุกวันในเวลา 07.55 น. และ 17.55 น. '
+      sendLineNotify(message)
+    }
+  }
+}
+function sendLineNotify(message) {
+  var tokens = ['SX4UIBxWDIHb9a4kyKFx4yucmG7C7eM3MLZFAqgmC8p', 'qQBwZsg6iiGNzuMpuqQM1DZSEfMHoKxqVvnDK7EQTAq'];
+  for (var i = 0; i < tokens.length; i++) {
+    var options = {
+      "method": "post",
+      "payload": "message=" + message,
+      "headers": {
+        "Authorization": "Bearer " + tokens[i]
+      }
+    };
+    UrlFetchApp.fetch("https://notify-api.line.me/api/notify", options);
+  }
+}
